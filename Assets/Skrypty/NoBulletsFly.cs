@@ -7,9 +7,8 @@ public class NoBulletsFly : MonoBehaviour
 {
     private Rigidbody2D bullet;
     private GameObject thisObject;
-    public LayerMask ignoreThisLayer; //Ignorowanie tej warstwy (gracza)
-
-    // private Collider wallOfAnnihilation;
+    // public LayerMask ignoreThisLayer; //Ignorowanie tej warstwy (gracza)
+    
     // Start is called before the first frame update
     void Start()
     {
