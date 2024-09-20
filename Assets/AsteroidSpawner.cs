@@ -22,18 +22,27 @@ public class AsteroidSpawner : MonoBehaviour
     
 
     private Random rnd;
+    
+    public int mode;
+    /* 0. w trakcie walki z obcymi
+     * 1. etap przetrwania
+     */
+    
+    private float spawnSpeed;
+    
     // Start is called before the first frame update
     void Start()
     {
         timer = 0f;
         rnd = new Random();
+        spawnSpeed = mode == 0 ? 10f : 1f;
     }
 
     // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer > 2f)
+        if (timer > spawnSpeed)
         {
             timer = 0f;
             SpawnBullet();

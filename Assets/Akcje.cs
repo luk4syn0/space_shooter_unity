@@ -72,6 +72,24 @@ public partial class @Akcje: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shield"",
+                    ""type"": ""Button"",
+                    ""id"": ""09a2a94e-7a72-4deb-9ab2-923dde1a3a74"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""df9c7277-1529-41d5-b228-9fcade9d4cdd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -184,6 +202,28 @@ public partial class @Akcje: IInputActionCollection2, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""525ec9e4-c8a2-41bc-ad0f-d4ae1888aa54"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shield"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0289c31f-8ee0-4cd1-b0bc-b2d7ef838ebb"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -197,6 +237,8 @@ public partial class @Akcje: IInputActionCollection2, IDisposable
         m_Player_MoveLeft = m_Player.FindAction("MoveLeft", throwIfNotFound: true);
         m_Player_MoveRight = m_Player.FindAction("MoveRight", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
+        m_Player_Shield = m_Player.FindAction("Shield", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
     }
 
     ~@Akcje()
@@ -268,6 +310,8 @@ public partial class @Akcje: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MoveLeft;
     private readonly InputAction m_Player_MoveRight;
     private readonly InputAction m_Player_Shoot;
+    private readonly InputAction m_Player_Shield;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @Akcje m_Wrapper;
@@ -277,6 +321,8 @@ public partial class @Akcje: IInputActionCollection2, IDisposable
         public InputAction @MoveLeft => m_Wrapper.m_Player_MoveLeft;
         public InputAction @MoveRight => m_Wrapper.m_Player_MoveRight;
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
+        public InputAction @Shield => m_Wrapper.m_Player_Shield;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -301,6 +347,12 @@ public partial class @Akcje: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @Shield.started += instance.OnShield;
+            @Shield.performed += instance.OnShield;
+            @Shield.canceled += instance.OnShield;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -320,6 +372,12 @@ public partial class @Akcje: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @Shield.started -= instance.OnShield;
+            @Shield.performed -= instance.OnShield;
+            @Shield.canceled -= instance.OnShield;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -344,5 +402,7 @@ public partial class @Akcje: IInputActionCollection2, IDisposable
         void OnMoveLeft(InputAction.CallbackContext context);
         void OnMoveRight(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnShield(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

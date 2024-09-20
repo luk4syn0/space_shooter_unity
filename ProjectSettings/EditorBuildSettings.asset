@@ -6,7 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/MainMenu.unity
+    guid: c0310234962ff4f4cb692ca5b395559e
+  - enabled: 1
+    path: Assets/Scenes/AsteroidsLevel.unity
+    guid: 437c9d859777e784ca10e5002c826076
+  - enabled: 1
+    path: Assets/Scenes/AliensLevel.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ddb6a0bd5b50046478abd4153547555c, type: 2}

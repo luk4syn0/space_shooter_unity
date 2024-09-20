@@ -11,24 +11,39 @@ public class PlayerShootBullet : MonoBehaviour
     public Transform shootingPoint;
 
     public GameObject bulletPrefab;
+    
+    public float shootingSpeed;
+    
+    private float timer;
     // Start is called before the first frame update
     void Start()
     {
+        if (shootingSpeed == 0f)
+        {
+            shootingSpeed = 0.75f;
+        }
+
+        timer = 2f;
+        
         attackShootBullet = InputSystem.actions.FindAction("Shoot"); //Do poprawy przy missilach
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        timer += Time.deltaTime;
     }
 
     private void FixedUpdate()
     {
         if (attackShootBullet.IsPressed())
         {
-            //strzelaj
-            Instantiate(bulletPrefab, shootingPoint.position,transform.rotation);
+            if(timer >= shootingSpeed)
+            {
+                timer = 0f;
+                //strzelaj
+                Instantiate(bulletPrefab, shootingPoint.position, transform.rotation);
+            }
             
         }
     }

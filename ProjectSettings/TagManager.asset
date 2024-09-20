@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Border
   - Background
+  - Obstacle
+  - MapEdges
+  - MapEdgesAsteroids
+  - PlayerBullet
+  - EventSystem
   layers:
   - Default
   - TransparentFX
@@ -16,7 +21,7 @@ TagManager:
   - Player
   - PlayerBullet
   - EnemyBullet
-  - 
+  - Asteroid
   - 
   - 
   - 

@@ -16,6 +16,7 @@ public class VelocityVisualizer : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        #if UNITY_EDITOR
         if (!Application.isPlaying) return;
 
         var position = transform.position;
@@ -25,5 +26,6 @@ public class VelocityVisualizer : MonoBehaviour
 
         Handles.color = Color.red;
         Handles.ArrowHandleCap(0, position, Quaternion.LookRotation(velocity), arrowLength, EventType.Repaint);
+        #endif
     }
 }

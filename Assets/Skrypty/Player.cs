@@ -4,34 +4,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class LogikaRuchuPlayerArcade : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [SerializeField]
     [Tooltip("Wartość przyspieszenia")]
     [Range(0.0f,30.0f)]
     public float boost = 0.0f;
+
+    public ScriptableObject playerData;
+    
+    public HealthBar healthBar;
+    public int maxHealth = 100;
+    public int currentHealth;
+    public ShieldBar shieldBar;
+    public float maxShieldWaitTime = 10;
+    public float currentShieldWaitTime;
     
     private GameObject Starship;
+    public GameObject shields;
     private Rigidbody2D rb;
+    
     
     InputAction moveActionUp;
     InputAction moveActionDown;
 
     InputAction moveActionLeft;
     InputAction moveActionRight;
-
+    InputAction shieldAction;
     
     
     Vector3 mouse_pos;
     Transform target;
     Vector3 object_pos;
     float angle;
+    float shieldTimer;
+    bool shieldActive;
     
     
     // Start is called before the first frame update
     void Start()
     {
-        Starship = GameObject.Find("Starship");
+        Starship = gameObject;
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+
+        currentShieldWaitTime = maxShieldWaitTime;
+        shieldBar.SetMaxValue(maxShieldWaitTime);
+        
         target = Starship.transform;
         
         rb = GetComponent<Rigidbody2D>();
@@ -40,7 +59,10 @@ public class LogikaRuchuPlayerArcade : MonoBehaviour
         moveActionDown = InputSystem.actions.FindAction("MoveDown");
         moveActionLeft = InputSystem.actions.FindAction("MoveLeft");
         moveActionRight = InputSystem.actions.FindAction("MoveRight");
-        
+        shieldAction = InputSystem.actions.FindAction("Shield");
+
+        shieldTimer = 0f;
+        shieldActive = false;
     }
 
     // Update is called once per frame
@@ -94,6 +116,49 @@ public class LogikaRuchuPlayerArcade : MonoBehaviour
         {
             rb.AddForce(Vector2.right * boost);
         }
+
+        //Tarcze
+        if (shieldAction.IsPressed() && shieldTimer <= 0f)
+        {
+            shieldTimer = 10f;
+            shields.SetActive(true);
+            shieldActive = true;
+            currentShieldWaitTime = 0f;
+            shieldBar.SetValue(currentShieldWaitTime);
+        }
+        
+        if (shieldTimer <= 5f && shieldTimer > 0f)
+        {
+            shields.SetActive(false);
+            shieldActive = false;
+        }
+        
+        if (shieldTimer > 0f)
+        {
+            shieldTimer -= Time.deltaTime;
+            currentShieldWaitTime += Time.deltaTime;
+            shieldBar.SetValue(currentShieldWaitTime);
+        }
+        
+
+    }
+
+    void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Obstacle") && shieldActive == false)
+        {
+            TakeDamage(10);
+        }
+    }
+
+    void CallGameOver()
+    {
         
     }
 }
